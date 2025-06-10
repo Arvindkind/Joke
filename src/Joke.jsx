@@ -3,6 +3,7 @@ import "./Joke.css";
 
 export default function Joke() {
   const [joke, setJoke] = useState({});
+  const [punchlineds, setPunchlines] = useState(false);
   const url = "https://official-joke-api.appspot.com/random_joke";
 
   const getNewJoke = async () => {
@@ -24,8 +25,17 @@ export default function Joke() {
       <div className="joke-container">
         <h3>JOKE</h3>
         <h2 className="joke-setup">{joke.setup}</h2>
-        <h2 className="joke-punchline">{joke.punchline}</h2>
-        <button onClick={getNewJoke} className="joke-button">Get Joke</button>
+        <button
+          onClick={() => setPunchlines(!punchlineds)}
+          className="joke-button"
+        >
+          {punchlineds ? "Hide Punchline" : "Show Punchline"}
+        </button>{" "}
+        <br />
+        {!!punchlineds && <h2 className="joke-punchline">{joke.punchline}</h2>}
+        <button onClick={getNewJoke} className="joke-button">
+          Get Joke
+        </button>
       </div>
     </>
   );
