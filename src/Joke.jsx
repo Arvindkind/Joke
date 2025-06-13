@@ -1,17 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useCallback } from "react";
 import "./Joke.css";
 import ErrorMsg from "./ErrorMsg";
+import useJoke from "./useJoke";
 
 export default function Joke() {
-  const [joke, setJoke] = useState({});
-  const [punchlineds, setPunchlines] = useState(false);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
-  const [history, setHistory] = useState([]); // <-- Add history state
+  const {
+    joke,
+    setJoke,
+    punchlineds,
+    setPunchlines,
+    history,
+    setHistory,
+    error,
+    setError,
+    loading,
+    setLoading,
+    copied,
+    setCopied,
+  } = useJoke();
   const url = "https://official-joke-api.appspot.com/random_joke";
 
-  const getNewJoke = async () => {
+  const getNewJoke = useCallback(async () => {
     setLoading(true);
     setError(null);
     setJoke({});
@@ -34,7 +43,15 @@ export default function Joke() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [
+    setLoading,
+    setError,
+    setJoke,
+    setPunchlines,
+    setCopied,
+    setHistory,
+    url,
+  ]);
 
   const handleCopy = () => {
     const text = `${joke.setup ? joke.setup + " " : ""}${
@@ -47,7 +64,7 @@ export default function Joke() {
 
   useEffect(() => {
     getNewJoke();
-  }, []);
+  }, [getNewJoke]);
 
   return (
     <>
