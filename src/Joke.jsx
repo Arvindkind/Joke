@@ -2,6 +2,7 @@ import { useEffect, useCallback } from "react";
 import "./Joke.css";
 import ErrorMsg from "./ErrorMsg";
 import useJoke from "./useJoke";
+import LikeBtn from "./component/likeJoke/LikeBtn";
 
 export default function Joke() {
   const {
@@ -35,7 +36,12 @@ export default function Joke() {
       setJoke({ setup: jsonResponse.setup, punchline: jsonResponse.punchline });
       setHistory((prev) => [
         ...prev,
-        { setup: jsonResponse.setup, punchline: jsonResponse.punchline },
+        {
+          setup: jsonResponse.setup,
+          punchline: jsonResponse.punchline,
+          likes: 0,
+          dislikes: 0,
+        },
       ]);
     } catch (error) {
       setError(error.message);
@@ -65,6 +71,10 @@ export default function Joke() {
   useEffect(() => {
     getNewJoke();
   }, [getNewJoke]);
+
+  
+
+ 
 
   return (
     <>
@@ -104,11 +114,31 @@ export default function Joke() {
       <div className="joke-container" style={{ marginTop: "30px" }}>
         <h3 style={{ color: "#00796b" }}>Joke History</h3>
         <ul>
-          {history.slice(0, -1).map((item, idx) => (
+          {history.map((item, idx) => (
             <li key={idx} style={{ marginBottom: "10px" }}>
               <strong style={{ color: "#00796b" }}>{item.setup}</strong>
               <br />
               <span style={{ color: "#00796b" }}>{item.punchline}</span>
+              <LikeBtn
+                likes={item.likes}
+                dislikes={item.dislikes}
+                onLike={() => {
+                  setHistory((history) =>
+                    history.map((joke, i) =>
+                      i === idx ? { ...joke, likes: joke.likes + 1 } : joke
+                    )
+                  );
+                }}
+                onDislike={() => {
+                  setHistory((history) =>
+                    history.map((joke, i) =>
+                      i === idx
+                        ? { ...joke, dislikes: joke.dislikes + 1 }
+                        : joke
+                    )
+                  );
+                }}
+              />
             </li>
           ))}
         </ul>
@@ -116,3 +146,21 @@ export default function Joke() {
     </>
   );
 }
+
+// Like/Dislike Jokes:
+// Add buttons to let users like or dislike a joke and keep count.
+
+// Save Favorite Jokes:
+// Let users save jokes to a favorites list (store in state or localStorage).
+
+// Share Joke:
+// Add a button to share the joke on social media or copy a shareable link.
+
+// Category Selection:
+// Fetch jokes by category (if the API supports it) and let users pick a category.
+
+// Dark Mode:
+// Add a toggle to switch between light and dark themes.
+
+// Show Total Jokes Fetched:
+// Display a counter for how many jokes have been fetched in this session.
