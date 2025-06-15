@@ -3,6 +3,7 @@ import "./Joke.css";
 import ErrorMsg from "./ErrorMsg";
 import useJoke from "./useJoke";
 import LikeBtn from "./component/likeJoke/LikeBtn";
+import FavoriteBtn from "./component/favoriteBTn/FavoriteBtn";
 
 export default function Joke() {
   const {
@@ -18,6 +19,10 @@ export default function Joke() {
     setLoading,
     copied,
     setCopied,
+    favorites,
+    setFavorites,
+    showFavMsg,
+    setShowFavMsg,
   } = useJoke();
   const url = "https://official-joke-api.appspot.com/random_joke";
 
@@ -72,9 +77,23 @@ export default function Joke() {
     getNewJoke();
   }, [getNewJoke]);
 
-  
+  //save favorites
+  useEffect(() => {
+    localStorage.setItem("joke-favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
- 
+  const saveToFavorites = () => {
+    if (
+      joke.setup &&
+      !favorites.some(
+        (fav) => fav.setup === joke.setup && fav.punchline === joke.punchline
+      )
+    ) {
+      setFavorites([...favorites, joke]);
+      setShowFavMsg(true);
+      setTimeout(() => setShowFavMsg(false), 1500);
+    }
+  };
 
   return (
     <>
@@ -119,6 +138,11 @@ export default function Joke() {
               <strong style={{ color: "#00796b" }}>{item.setup}</strong>
               <br />
               <span style={{ color: "#00796b" }}>{item.punchline}</span>
+              <br />
+              <FavoriteBtn onClick={saveToFavorites} isFavorite={favorites} />
+              {showFavMsg && (
+                <div className="fav-msg" style={{ color: "green" }}>Your favorite is added!</div>
+              )}
               <LikeBtn
                 likes={item.likes}
                 dislikes={item.dislikes}
@@ -142,6 +166,18 @@ export default function Joke() {
             </li>
           ))}
         </ul>
+        <div className="joke-container" style={{ marginTop: "30px" }}>
+          <h3 style={{ color: "#ff9800" }}>Favorite Jokes</h3>
+          <ul>
+            {favorites.map((item, idx) => (
+              <li key={idx} style={{ marginBottom: "10px" }}>
+                <strong style={{ color: "#00796b" }}>{item.setup}</strong>
+                <br />
+                <span style={{ color: "#00796b" }}>{item.punchline}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </>
   );

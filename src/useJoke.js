@@ -7,7 +7,12 @@ export default function useJoke() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  
+  const [favorites, setFavorites] = useState(() => {
+    const stored = localStorage.getItem("joke-favorites");
+    return stored ? JSON.parse(stored) : [];
+  });
+  const [showFavMsg, setShowFavMsg] = useState(false);
+
   return {
     joke,
     setJoke,
@@ -21,5 +26,9 @@ export default function useJoke() {
     setLoading,
     copied,
     setCopied,
+    favorites,
+    setFavorites,
+    showFavMsg,
+    setShowFavMsg,
   };
 }
