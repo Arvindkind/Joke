@@ -4,6 +4,7 @@ import ErrorMsg from "./ErrorMsg";
 import useJoke from "./useJoke";
 import LikeBtn from "./component/likeJoke/LikeBtn";
 import FavoriteBtn from "./component/favoriteBTn/FavoriteBtn";
+import UnfavoriteBtn from "./component/unfavoriteBtn/Unfavorite";
 
 export default function Joke() {
   const {
@@ -141,7 +142,9 @@ export default function Joke() {
               <br />
               <FavoriteBtn onClick={saveToFavorites} isFavorite={favorites} />
               {showFavMsg && (
-                <div className="fav-msg" style={{ color: "green" }}>Your favorite is added!</div>
+                <div className="fav-msg" style={{ color: "green" }}>
+                  Your favorite is added!
+                </div>
               )}
               <LikeBtn
                 likes={item.likes}
@@ -174,6 +177,13 @@ export default function Joke() {
                 <strong style={{ color: "#00796b" }}>{item.setup}</strong>
                 <br />
                 <span style={{ color: "#00796b" }}>{item.punchline}</span>
+                <br />
+                <br />
+                <UnfavoriteBtn
+                  joke={item}
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                />
               </li>
             ))}
           </ul>

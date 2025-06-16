@@ -1,0 +1,27 @@
+.unfavorite-btn {
+  background: #fff;
+  color: #e53935;
+  border: 1.5px solid #e53935;
+  border-radius: 6px;
+  padding: 4px 14px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 18px;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.unfavorite-btn:hover {
+  background: #e53935;
+  color: #fff;
+  border-color: #e53935;
+}
+
+.unfavorite-heart {
+  font-size: 1.2em;
+  color: #652424;
+  transition: color 0.2s;
+}
