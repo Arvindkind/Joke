@@ -5,6 +5,7 @@ import useJoke from "./useJoke";
 import LikeBtn from "./component/likeJoke/LikeBtn";
 import FavoriteBtn from "./component/favoriteBTn/FavoriteBtn";
 import UnfavoriteBtn from "./component/unfavoriteBtn/Unfavorite";
+import ShareBtn from "./component/shareBtn/ShareBtn";
 
 export default function Joke() {
   const {
@@ -184,6 +185,8 @@ export default function Joke() {
                   favorites={favorites}
                   setFavorites={setFavorites}
                 />
+
+                <ShareBtn joke={item} />
               </li>
             ))}
           </ul>

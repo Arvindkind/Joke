@@ -1,0 +1,28 @@
+.share-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.share-btn:hover {
+  background: #0d47a1;
+  transform: scale(1.05);
+}
+
+.share-icon {
+  font-size: 1.2em;
+}
+
+.share-text {
+  font-weight: 500;
+}
