@@ -104,7 +104,7 @@ export default function Joke() {
         {loading && <h2 className="joke-setup">Loading...</h2>}
         {!loading && (
           <>
-            <h2 className="joke-setup">
+            <h2 className="joke-setup" style={{ color: "#00796b" }}>
               {joke.setup}
               <ErrorMsg ErrorMsg={error} />
             </h2>
