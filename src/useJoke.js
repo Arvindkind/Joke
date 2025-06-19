@@ -12,6 +12,7 @@ export default function useJoke() {
     return stored ? JSON.parse(stored) : [];
   });
   const [showFavMsg, setShowFavMsg] = useState(false);
+  const [category, setCategory] = useState("general");
 
   return {
     joke,
@@ -30,5 +31,7 @@ export default function useJoke() {
     setFavorites,
     showFavMsg,
     setShowFavMsg,
+    category,
+    setCategory,
   };
 }

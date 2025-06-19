@@ -25,8 +25,11 @@ export default function Joke() {
     setFavorites,
     showFavMsg,
     setShowFavMsg,
+    category,
+    setCategory,
   } = useJoke();
-  const url = "https://official-joke-api.appspot.com/random_joke";
+  // const url = "https://official-joke-api.appspot.com/random_joke";
+  const url = `https://official-joke-api.appspot.com/jokes/${category}/random`;
 
   const getNewJoke = useCallback(async () => {
     setLoading(true);
@@ -40,12 +43,16 @@ export default function Joke() {
         throw new Error("Network response was not ok");
       }
       let jsonResponse = await response.json();
-      setJoke({ setup: jsonResponse.setup, punchline: jsonResponse.punchline });
+      // setJoke({ setup: jsonResponse.setup, punchline: jsonResponse.punchline });
+      const jokeData = Array.isArray(jsonResponse)
+        ? jsonResponse[0]
+        : jsonResponse;
+      setJoke({ setup: jokeData.setup, punchline: jokeData.punchline });
       setHistory((prev) => [
         ...prev,
         {
-          setup: jsonResponse.setup,
-          punchline: jsonResponse.punchline,
+          setup: jokeData.setup,
+          punchline: jokeData.punchline,
           likes: 0,
           dislikes: 0,
         },
@@ -104,6 +111,15 @@ export default function Joke() {
         {loading && <h2 className="joke-setup">Loading...</h2>}
         {!loading && (
           <>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="joke-select"
+            >
+              <option value="general">General</option>
+              <option value="programming">Programming</option>
+              <option value="knock-knock">Knock-Knock</option>
+            </select>
             <h2 className="joke-setup" style={{ color: "#00796b" }}>
               {joke.setup}
               <ErrorMsg ErrorMsg={error} />
