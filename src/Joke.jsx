@@ -6,6 +6,7 @@ import LikeBtn from "./component/likeJoke/LikeBtn";
 import FavoriteBtn from "./component/favoriteBTn/FavoriteBtn";
 import UnfavoriteBtn from "./component/unfavoriteBtn/Unfavorite";
 import ShareBtn from "./component/shareBtn/ShareBtn";
+import DarkModeToggle from "./component/toggledarkModeBtn/DarkModeToggle";
 
 export default function Joke() {
   const {
@@ -27,6 +28,8 @@ export default function Joke() {
     setShowFavMsg,
     category,
     setCategory,
+    darkMode,
+    setDarkMode,
   } = useJoke();
   // const url = "https://official-joke-api.appspot.com/random_joke";
   const url = `https://official-joke-api.appspot.com/jokes/${category}/random`;
@@ -91,6 +94,15 @@ export default function Joke() {
     localStorage.setItem("joke-favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  useEffect(() => {
+    localStorage.setItem("joke-dark-mode", JSON.stringify(darkMode));
+    if (darkMode) {
+      document.body.classList.add("joke-dark");
+    } else {
+      document.body.classList.remove("joke-dark");
+    }
+  }, [darkMode]);
+
   const saveToFavorites = () => {
     if (
       joke.setup &&
@@ -104,10 +116,16 @@ export default function Joke() {
     }
   };
 
+  const totalJokesFetched = history.length;
+
   return (
     <>
+      <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
       <div className="joke-container">
         <h3 style={{ color: "blue" }}>JOKE</h3>
+        <div style={{ fontWeight: 500, color: "#f59e42", marginBottom: 10 }}>
+          Total Jokes Fetched: {totalJokesFetched}
+        </div>
         {loading && <h2 className="joke-setup">Loading...</h2>}
         {!loading && (
           <>

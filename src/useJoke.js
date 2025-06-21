@@ -13,6 +13,11 @@ export default function useJoke() {
   });
   const [showFavMsg, setShowFavMsg] = useState(false);
   const [category, setCategory] = useState("general");
+  const [darkMode, setDarkMode] = useState(() => {
+    // Persist dark mode preference
+    const stored = localStorage.getItem("joke-dark-mode");
+    return stored ? JSON.parse(stored) : false;
+  });
 
   return {
     joke,
@@ -33,5 +38,7 @@ export default function useJoke() {
     setShowFavMsg,
     category,
     setCategory,
+    darkMode,
+    setDarkMode,
   };
 }
